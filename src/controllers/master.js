@@ -2,7 +2,7 @@ import { checkMasterUser } from "../utils/master";
 import { User } from "../db/sequelize";
 
 export const provideExcelFile = async (req, res) => {
-    const { token } = req.headers;
+    const token = req.query.jwt;
     if (token === null || token === undefined) {
         res.json({
             what: "?"
