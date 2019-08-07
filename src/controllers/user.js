@@ -1,5 +1,46 @@
 import { User } from "../db/sequelize";
 import { sendMessage } from "../utils/sendingSMS";
+import { generateToken } from "../utils/jsonWebToken";
+
+export const login = (req, res) => {
+    const { id, password } = req.body;
+    User.findByPk(id)
+        .then(user => {
+            if (user === null) {
+                res.json({
+                    ok: false,
+                    error: true,
+                    message: '로그인에 실패하였습니다. ',
+                    token: null
+                })
+                return
+            } else {
+
+                const userPassword = user.password;
+                if (userPassword === password) {
+                    // Make json web token
+                    const token = generateToken(id);
+                    res.json({
+                        ok: true,
+                        error: false,
+                        message: null,
+                        token
+                    })
+                    return
+                } else {
+                    res.json({
+                        ok: false,
+                        error: true,
+                        message: '로그인에 실패하였습니다. ',
+                        token: null
+                    })
+                    return;
+                }
+
+
+            }
+        })
+}
 
 export const doubleCheck = (req, res) => {
     const { id } = req.body;

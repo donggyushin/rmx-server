@@ -1,0 +1,12 @@
+import jwt from 'jsonwebtoken';
+
+export const generateToken = (id) => {
+    const token = jwt.sign({ id }, 'shhhh')
+    return token;
+}
+
+export const decodeToken = (token) => {
+    const decoded = jwt.verify(token, 'shhhh')
+
+    return decoded.id;
+}
