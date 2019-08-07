@@ -8,5 +8,9 @@ export const generateToken = (id) => {
 export const decodeToken = (token) => {
     const decoded = jwt.verify(token, 'shhhh')
 
+    if (decoded === null || decoded === undefined) {
+        return null;
+    }
+
     return decoded.id;
 }
